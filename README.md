@@ -22,6 +22,20 @@ d760f6690ea7   rustfs/rustfs:1.0.0-alpha.58                      "/entrypoint.sh
 
 milvus instance will be available on `19530` port, rustfs will be available on `9000` port and attu will be available on `8000` port.
 
+**NOTE**: In order to replace the minio in milvus [`docker-compose.yml`](https://github.com/milvus-io/milvus/blob/master/docker-compose.yml), so you have two way to do this:
+
+- Download the [`milvus.yml`](https://github.com/milvus-io/milvus/blob/master/configs/milvus.yaml) file on your server, then replace the minio related info with below conteng
+   ```
+   minio:
+    address: localhost:9000
+    port: 9000
+    accessKeyID: rustfsadmin
+    secretAccessKey: rustfsadmin
+    useSSL: false
+    bucketName: "rustfs-bucket"
+   ```
+- Modify the command of container `milvus-standalone`, use `yq` to modify minio block info and then start the milvus service.
+
 ## Embedding docs
 
 Milvus is a vector database, means, it can not store the docs(such markdown file, png images). So, text or images should first be converted into vector representations via an embedding model before being stored in a vector database.
